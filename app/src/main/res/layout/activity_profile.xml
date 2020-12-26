@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:paddingTop="100dp"
+    android:background="#CCBFDFCA"
+    android:orientation="vertical"
+
+    android:layout_height="match_parent"
+    tools:context=".ProfileActivity">
+    <EditText
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:id="@+id/usernameEdittextId"
+        android:textAlignment="center"
+        android:hint="Enter your Username"
+        android:layout_margin="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:inputType="phone"
+        android:id="@+id/PhoneNumberEdittextId"
+        android:textAlignment="center"
+        android:hint="Enter your phoneNumber"
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <Button
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:id="@+id/saveButtonId"
+        android:layout_gravity="center"
+        android:text="Save"
+        android:layout_margin="30dp"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <ProgressBar
+        android:progressBackgroundTint="#1303F4"
+        android:progressTint="#15DCAE"
+        android:id="@+id/progressBarId"
+        android:layout_margin="80dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_gravity="bottom|center"
+        />
+
+
+</LinearLayout>
