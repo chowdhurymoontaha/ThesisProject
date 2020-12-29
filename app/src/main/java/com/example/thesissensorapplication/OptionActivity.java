@@ -49,6 +49,8 @@ import java.util.Map;
 
 public class OptionActivity extends AppCompatActivity implements SensorEventListener
 {
+
+    MyDatabaseHelper myDatabaseHelper=new MyDatabaseHelper(this);
     RadioGroup radioGroup;
     LottieAnimationView animationView;
 
@@ -66,26 +68,27 @@ public class OptionActivity extends AppCompatActivity implements SensorEventList
 
     String str_xValue, str_yValue, str_zValue;
     double acc_x, acc_y, acc_z;
-    String url = "https://moontaha.000webhostapp.com/SensorTest.php";
+    //String url = "https://moontaha.000webhostapp.com/SensorTest.php";
     String str_gyroXValue, str_gyroYValue, str_gyroZValue;
     double gyro_x, gyro_y, gyro_z;
-    String urlGyroscope = "https://moontaha.000webhostapp.com/GyroscopeTest.php";
+    //String urlGyroscope = "https://moontaha.000webhostapp.com/GyroscopeTest.php";
     String str_xMagnetoValue, str_yMagnetoValue, str_zMagnetoValue;
     double mag_x, mag_y, mag_z;
-    String url_MagnetoValue = "https://moontaha.000webhostapp.com/MagnetometerSensorTest.php";
+    //String url_MagnetoValue = "https://moontaha.000webhostapp.com/MagnetometerSensorTest.php";
     String str_humidity;
     double hum;
-    String urlHumidity = "https://moontaha.000webhostapp.com/HumiditySensorTest.php";
+    //String urlHumidity = "https://moontaha.000webhostapp.com/HumiditySensorTest.php";
     String str_light;
     double lightData;
-    String urlLight = "https://moontaha.000webhostapp.com/LightSensorTest.php";
+    //String urlLight = "https://moontaha.000webhostapp.com/LightSensorTest.php";
     String str_pressure;
     double pressureData;
-    String urlPressure = "https://moontaha.000webhostapp.com/PressureSensorTest.php";
+    // String urlPressure = "https://moontaha.000webhostapp.com/PressureSensorTest.php";
     String str_temperature;
     double temperatureData;
-    String urlTemperature = "https://moontaha.000webhostapp.com/TemperatureSensorTest.php";
-    String urlGPS = "https://moontaha.000webhostapp.com/GPSTest.php";
+    // String urlTemperature = "https://moontaha.000webhostapp.com/TemperatureSensorTest.php";
+    //String urlGPS = "https://moontaha.000webhostapp.com/GPSTest.php";
+    String str_Latitude,str_Longitude;
     double Latitude, Longitude;
     String Address = "";
 
@@ -221,7 +224,15 @@ public class OptionActivity extends AppCompatActivity implements SensorEventList
             startService(intent);
             str_temperature= Double.toString(temperatureData);
 
-            StringRequest request=new StringRequest(Request.Method.POST, urlTemperature, new Response.Listener<String>() {
+            boolean checkTemperatureData=myDatabaseHelper.insertTemperatureValue(str_temperature);
+            if(checkTemperatureData==true){
+                Toast.makeText(OptionActivity.this,"Temperature value Inserted Successfully",Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(OptionActivity.this,"Temperature value Insertion Failed",Toast.LENGTH_SHORT).show();
+            }
+
+           /* StringRequest request=new StringRequest(Request.Method.POST, urlTemperature, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     // Toast.makeText(OptionActivity.this,response,Toast.LENGTH_SHORT).show();
@@ -246,7 +257,7 @@ public class OptionActivity extends AppCompatActivity implements SensorEventList
 
 
             RequestQueue requestQueue= Volley.newRequestQueue(OptionActivity.this);
-            requestQueue.add(request);
+            requestQueue.add(request);*/
 
 
             temperatureHandeler.postDelayed(temperatureRunnable,60000);
@@ -266,8 +277,16 @@ public class OptionActivity extends AppCompatActivity implements SensorEventList
             str_yValue = Double.toString(acc_y);
             str_zValue = Double.toString(acc_z);
 
+            boolean checkinsertAccelerodata=myDatabaseHelper.insertAccelerometerValue(str_xValue,str_yValue,str_zValue);
+            if(checkinsertAccelerodata==true){
+                Toast.makeText(OptionActivity.this,"Inserted Successfully",Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(OptionActivity.this,"Insertion Failed",Toast.LENGTH_SHORT).show();
+            }
 
-            StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>()
+
+           /* StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>()
             {
                 @Override
                 public void onResponse(String response)
@@ -299,7 +318,7 @@ public class OptionActivity extends AppCompatActivity implements SensorEventList
                 }
             };
             RequestQueue requestQueue= Volley.newRequestQueue(OptionActivity.this);
-            requestQueue.add(request);
+            requestQueue.add(request);*/
 
 
             acceleroHandeler.postDelayed(acceleroRunnable,60000);
@@ -315,10 +334,16 @@ public class OptionActivity extends AppCompatActivity implements SensorEventList
             str_gyroXValue= Double.toString(gyro_x);
             str_gyroYValue= Double.toString(gyro_y);
             str_gyroZValue= Double.toString(gyro_z);
+            boolean checkinsertGyroscopedata=myDatabaseHelper.insertGyroscopeValue(str_gyroXValue,str_gyroYValue,str_gyroZValue);
+            if(checkinsertGyroscopedata==true){
+                Toast.makeText(OptionActivity.this,"Gyroscope data Inserted Successfully",Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(OptionActivity.this,"Gyroscope data Insertion Failed",Toast.LENGTH_SHORT).show();
+            }
 
 
-
-            StringRequest request=new StringRequest(Request.Method.POST, urlGyroscope, new Response.Listener<String>() {
+           /* StringRequest request=new StringRequest(Request.Method.POST, urlGyroscope, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     //  Toast.makeText(OptionActivity.this,response,Toast.LENGTH_SHORT).show();
@@ -346,7 +371,7 @@ public class OptionActivity extends AppCompatActivity implements SensorEventList
 
 
             RequestQueue requestQueue= Volley.newRequestQueue(OptionActivity.this);
-            requestQueue.add(request);
+            requestQueue.add(request);*/
 
 
             gyroscopeHandler.postDelayed(gyroscopeRunnable,60000);
@@ -363,9 +388,17 @@ public class OptionActivity extends AppCompatActivity implements SensorEventList
             str_yMagnetoValue= Double.toString(mag_y);
             str_zMagnetoValue= Double.toString(mag_z);
 
+            boolean checkinsertMagnetodata=myDatabaseHelper.insertMagnetometerValue(str_xMagnetoValue,str_yMagnetoValue,str_zMagnetoValue);
+            if(checkinsertMagnetodata==true){
+                Toast.makeText(OptionActivity.this,"Inserted Magnetometer Data Successfully",Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(OptionActivity.this,"Magnetometer Data Insertion Failed",Toast.LENGTH_SHORT).show();
+            }
 
 
-            StringRequest request=new StringRequest(Request.Method.POST, url_MagnetoValue, new Response.Listener<String>() {
+
+            /*StringRequest request=new StringRequest(Request.Method.POST, url_MagnetoValue, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     // Toast.makeText(OptionActivity.this,response,Toast.LENGTH_SHORT).show();
@@ -393,7 +426,7 @@ public class OptionActivity extends AppCompatActivity implements SensorEventList
 
 
             RequestQueue requestQueue= Volley.newRequestQueue(OptionActivity.this);
-            requestQueue.add(request);
+            requestQueue.add(request);*/
 
             magnetoHandeler.postDelayed(magnetoRunnable,60000);
 
@@ -407,7 +440,16 @@ public class OptionActivity extends AppCompatActivity implements SensorEventList
             startService(intent);
             str_humidity= Double.toString(hum);
 
-            StringRequest request=new StringRequest(Request.Method.POST, urlHumidity, new Response.Listener<String>() {
+            boolean checkinsertHumiditydata=myDatabaseHelper.insertHumidityValue(str_humidity);
+            if(checkinsertHumiditydata==true){
+                Toast.makeText(OptionActivity.this,"Humidity data Inserted Successfully",Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(OptionActivity.this,"Humidity data Insertion Failed",Toast.LENGTH_SHORT).show();
+            }
+
+
+            /*StringRequest request=new StringRequest(Request.Method.POST, urlHumidity, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     // Toast.makeText(OptionActivity.this,response,Toast.LENGTH_SHORT).show();
@@ -432,7 +474,7 @@ public class OptionActivity extends AppCompatActivity implements SensorEventList
             };
 
             RequestQueue requestQueue= Volley.newRequestQueue(OptionActivity.this);
-            requestQueue.add(request);
+            requestQueue.add(request);*/
 
 
             humidityHandeler.postDelayed(humidityRunnable,60000);
@@ -447,7 +489,15 @@ public class OptionActivity extends AppCompatActivity implements SensorEventList
             startService(intent);
             str_light= Double.toString(lightData);
 
-            StringRequest request=new StringRequest(Request.Method.POST, urlLight, new Response.Listener<String>() {
+            boolean checkLightData=myDatabaseHelper.insertLightValue(str_light);
+            if(checkLightData==true){
+                Toast.makeText(OptionActivity.this,"Light value Inserted Successfully",Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(OptionActivity.this,"Light value Insertion Failed",Toast.LENGTH_SHORT).show();
+            }
+
+           /* StringRequest request=new StringRequest(Request.Method.POST, urlLight, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     //  Toast.makeText(OptionActivity.this,response,Toast.LENGTH_SHORT).show();
@@ -473,7 +523,7 @@ public class OptionActivity extends AppCompatActivity implements SensorEventList
 
 
             RequestQueue requestQueue= Volley.newRequestQueue(OptionActivity.this);
-            requestQueue.add(request);
+            requestQueue.add(request);*/
 
 
             lightHandeler.postDelayed(lightRunnable,60000);
@@ -488,7 +538,15 @@ public class OptionActivity extends AppCompatActivity implements SensorEventList
             startService(intent);
             str_pressure= Double.toString(pressureData);
 
-            StringRequest request=new StringRequest(Request.Method.POST, urlPressure, new Response.Listener<String>() {
+            boolean checkPressureData=myDatabaseHelper.insertPressureValue(str_pressure);
+            if(checkPressureData==true){
+                Toast.makeText(OptionActivity.this,"Pressure value Inserted Successfully",Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(OptionActivity.this,"Pressure value Insertion Failed",Toast.LENGTH_SHORT).show();
+            }
+
+            /*StringRequest request=new StringRequest(Request.Method.POST, urlPressure, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     //  Toast.makeText(OptionActivity.this,response,Toast.LENGTH_SHORT).show();
@@ -513,7 +571,7 @@ public class OptionActivity extends AppCompatActivity implements SensorEventList
             };
 
             RequestQueue requestQueue= Volley.newRequestQueue(OptionActivity.this);
-            requestQueue.add(request);
+            requestQueue.add(request);*/
 
 
             pressureHandeler.postDelayed(pressureRunnable,60000);
@@ -527,7 +585,19 @@ public class OptionActivity extends AppCompatActivity implements SensorEventList
             Intent intent=new Intent(OptionActivity.this,myService.class);
             startService(intent);
 
-            StringRequest request=new StringRequest(Request.Method.POST, urlGPS, new Response.Listener<String>() {
+            str_Latitude=Double.toString(Latitude);
+            str_Longitude=Double.toString(Longitude);
+
+
+            boolean checkinsertGPSdata=myDatabaseHelper.insertGPSValue(str_Longitude,str_Latitude,Address);
+            if(checkinsertGPSdata==true){
+                Toast.makeText(OptionActivity.this,"GPS dataInserted Successfully",Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(OptionActivity.this,"GPS data Insertion Failed",Toast.LENGTH_SHORT).show();
+            }
+
+            /*StringRequest request=new StringRequest(Request.Method.POST, urlGPS, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     Toast.makeText(OptionActivity.this,response,Toast.LENGTH_SHORT).show();
@@ -556,7 +626,7 @@ public class OptionActivity extends AppCompatActivity implements SensorEventList
 
 
             RequestQueue requestQueue= Volley.newRequestQueue(OptionActivity.this);
-            requestQueue.add(request);
+            requestQueue.add(request);*/
             gpsHandeler.postDelayed(GPSRunnable,60000);
 
         }
