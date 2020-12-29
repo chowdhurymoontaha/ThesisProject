@@ -42,6 +42,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -88,9 +90,13 @@ public class OptionActivity extends AppCompatActivity implements SensorEventList
     double temperatureData;
     // String urlTemperature = "https://moontaha.000webhostapp.com/TemperatureSensorTest.php";
     //String urlGPS = "https://moontaha.000webhostapp.com/GPSTest.php";
-    String str_Latitude,str_Longitude;
+    String str_Latitude,str_Longitude,str_Address;
     double Latitude, Longitude;
     String Address = "";
+
+    long timeInMillis;
+    //String str_TimeOfSensorEvent;
+    String dateString,GyroscopedateString,MagnetodateString,LightdateString,TemperaturedateString,HumiditydateString,PressuredateString,GPSdateString;
 
     //Google's API for Location Service.Majority of this app function use this class.
     FusedLocationProviderClient fusedLocationProviderClient;
@@ -215,6 +221,7 @@ public class OptionActivity extends AppCompatActivity implements SensorEventList
         temperatureRunnable.run();
         GPSRunnable.run();
 
+
     }
     private Runnable temperatureRunnable=new Runnable() {
         @Override
@@ -224,7 +231,11 @@ public class OptionActivity extends AppCompatActivity implements SensorEventList
             startService(intent);
             str_temperature= Double.toString(temperatureData);
 
-            boolean checkTemperatureData=myDatabaseHelper.insertTemperatureValue(str_temperature);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE,dd-MMM-yyyy hh:mm:ss a");
+            TemperaturedateString = simpleDateFormat.format(timeInMillis );
+
+
+            boolean checkTemperatureData=myDatabaseHelper.insertTemperatureValue(TemperaturedateString,str_temperature);
             if(checkTemperatureData==true){
                 Toast.makeText(OptionActivity.this,"Temperature value Inserted Successfully",Toast.LENGTH_SHORT).show();
             }
@@ -276,8 +287,12 @@ public class OptionActivity extends AppCompatActivity implements SensorEventList
             str_xValue = Double.toString(acc_x);
             str_yValue = Double.toString(acc_y);
             str_zValue = Double.toString(acc_z);
+            //str_TimeOfSensorEvent=Long.toString(timeInMillis);
 
-            boolean checkinsertAccelerodata=myDatabaseHelper.insertAccelerometerValue(str_xValue,str_yValue,str_zValue);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE,dd-MMM-yyyy hh:mm:ss a");
+            dateString = simpleDateFormat.format(timeInMillis );
+
+            boolean checkinsertAccelerodata=myDatabaseHelper.insertAccelerometerValue(dateString,str_xValue,str_yValue,str_zValue);
             if(checkinsertAccelerodata==true){
                 Toast.makeText(OptionActivity.this,"Inserted Successfully",Toast.LENGTH_SHORT).show();
             }
@@ -334,7 +349,10 @@ public class OptionActivity extends AppCompatActivity implements SensorEventList
             str_gyroXValue= Double.toString(gyro_x);
             str_gyroYValue= Double.toString(gyro_y);
             str_gyroZValue= Double.toString(gyro_z);
-            boolean checkinsertGyroscopedata=myDatabaseHelper.insertGyroscopeValue(str_gyroXValue,str_gyroYValue,str_gyroZValue);
+
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE,dd-MMM-yyyy hh:mm:ss a");
+            GyroscopedateString = simpleDateFormat.format(timeInMillis );
+            boolean checkinsertGyroscopedata=myDatabaseHelper.insertGyroscopeValue(GyroscopedateString,str_gyroXValue,str_gyroYValue,str_gyroZValue);
             if(checkinsertGyroscopedata==true){
                 Toast.makeText(OptionActivity.this,"Gyroscope data Inserted Successfully",Toast.LENGTH_SHORT).show();
             }
@@ -388,7 +406,11 @@ public class OptionActivity extends AppCompatActivity implements SensorEventList
             str_yMagnetoValue= Double.toString(mag_y);
             str_zMagnetoValue= Double.toString(mag_z);
 
-            boolean checkinsertMagnetodata=myDatabaseHelper.insertMagnetometerValue(str_xMagnetoValue,str_yMagnetoValue,str_zMagnetoValue);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE,dd-MMM-yyyy hh:mm:ss a");
+            MagnetodateString = simpleDateFormat.format(timeInMillis );
+
+
+            boolean checkinsertMagnetodata=myDatabaseHelper.insertMagnetometerValue(MagnetodateString,str_xMagnetoValue,str_yMagnetoValue,str_zMagnetoValue);
             if(checkinsertMagnetodata==true){
                 Toast.makeText(OptionActivity.this,"Inserted Magnetometer Data Successfully",Toast.LENGTH_SHORT).show();
             }
@@ -440,7 +462,11 @@ public class OptionActivity extends AppCompatActivity implements SensorEventList
             startService(intent);
             str_humidity= Double.toString(hum);
 
-            boolean checkinsertHumiditydata=myDatabaseHelper.insertHumidityValue(str_humidity);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE,dd-MMM-yyyy hh:mm:ss a");
+            HumiditydateString= simpleDateFormat.format(timeInMillis );
+
+
+            boolean checkinsertHumiditydata=myDatabaseHelper.insertHumidityValue(HumiditydateString,str_humidity);
             if(checkinsertHumiditydata==true){
                 Toast.makeText(OptionActivity.this,"Humidity data Inserted Successfully",Toast.LENGTH_SHORT).show();
             }
@@ -489,7 +515,11 @@ public class OptionActivity extends AppCompatActivity implements SensorEventList
             startService(intent);
             str_light= Double.toString(lightData);
 
-            boolean checkLightData=myDatabaseHelper.insertLightValue(str_light);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE,dd-MMM-yyyy hh:mm:ss a");
+            LightdateString= simpleDateFormat.format(timeInMillis );
+
+
+            boolean checkLightData=myDatabaseHelper.insertLightValue(LightdateString,str_light);
             if(checkLightData==true){
                 Toast.makeText(OptionActivity.this,"Light value Inserted Successfully",Toast.LENGTH_SHORT).show();
             }
@@ -538,7 +568,11 @@ public class OptionActivity extends AppCompatActivity implements SensorEventList
             startService(intent);
             str_pressure= Double.toString(pressureData);
 
-            boolean checkPressureData=myDatabaseHelper.insertPressureValue(str_pressure);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE,dd-MMM-yyyy hh:mm:ss a");
+            PressuredateString= simpleDateFormat.format(timeInMillis );
+
+
+            boolean checkPressureData=myDatabaseHelper.insertPressureValue(PressuredateString,str_pressure);
             if(checkPressureData==true){
                 Toast.makeText(OptionActivity.this,"Pressure value Inserted Successfully",Toast.LENGTH_SHORT).show();
             }
@@ -587,9 +621,13 @@ public class OptionActivity extends AppCompatActivity implements SensorEventList
 
             str_Latitude=Double.toString(Latitude);
             str_Longitude=Double.toString(Longitude);
+            str_Address= Address;
 
 
-            boolean checkinsertGPSdata=myDatabaseHelper.insertGPSValue(str_Longitude,str_Latitude,Address);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE,dd-MMM-yyyy hh:mm:ss a");
+            GPSdateString = simpleDateFormat.format(timeInMillis );
+
+            boolean checkinsertGPSdata=myDatabaseHelper.insertGPSValue(GPSdateString,str_Longitude,str_Latitude,str_Address);
             if(checkinsertGPSdata==true){
                 Toast.makeText(OptionActivity.this,"GPS dataInserted Successfully",Toast.LENGTH_SHORT).show();
             }
@@ -671,6 +709,12 @@ public class OptionActivity extends AppCompatActivity implements SensorEventList
         if(sensor.getType()==Sensor.TYPE_AMBIENT_TEMPERATURE){
             temperatureData = sensorEvent.values[0];
         }
+
+
+        timeInMillis = (new Date()).getTime()
+                + (sensorEvent.timestamp - System.nanoTime()) / 1000000L;
+
+
     }
 
     @Override
